@@ -38,11 +38,14 @@ jobs:
       - name: 리포트 타입 결정 및 생성
         env:
           CLAUDE_API_KEY: ${{ secrets.CLAUDE_API_KEY }}
-          NEWSAPI_KEY: ${{ secrets.NEWSAPI_KEY }}
+          NEWS_API_KEY: ${{ secrets.NEWS_API_KEY }}
+          OBSIDIAN_ENABLED: 'false'
         run: |
           python3 run_report_pipeline.py
 
       - name: 생성된 리포트 커밋 및 푸시
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           git config --local user.email "action@github.com"
           git config --local user.name "GitHub Action"
@@ -52,7 +55,9 @@ jobs:
             git add output/final/*.md
             git add output/logs/*.json
             git commit -m "🤖 $(date +'%Y-%m-%d %H:%M') - 자동 생성 리포트"
-            git push origin main
+
+            # GitHub Token을 사용한 푸시
+            git push https://x-access-token:${GITHUB_TOKEN}@github.com/${{ github.repository }}.git HEAD:main
           else
             echo "변경사항 없음"
           fi

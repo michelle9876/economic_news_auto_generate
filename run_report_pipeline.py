@@ -211,6 +211,26 @@ def validate_report():
     except Exception as e:
         print(f"⚠️  검증 오류: {e}")
 
+def save_to_obsidian(report_type, date_str):
+    """Obsidian에 리포트 저장"""
+    print(f"\n[6단계] Obsidian 저장: {date_str}_{report_type}_report.md")
+
+    try:
+        result = subprocess.run(
+            ["python3", ".claude/scv/save_to_obsidian.py",
+             "--date", date_str,
+             "--type", report_type],
+            capture_output=True,
+            text=True,
+            timeout=30
+        )
+        if result.returncode == 0:
+            print(f"✅ Obsidian 저장 완료")
+        else:
+            print(f"⚠️  Obsidian 저장 실패: {result.stderr}")
+    except Exception as e:
+        print(f"⚠️  Obsidian 저장 오류: {e}")
+
 def generate_final_report(report_type):
     """최종 리포트 생성"""
     print(f"\n[5단계] 최종 {report_type} 리포트 생성")
@@ -307,10 +327,14 @@ def main():
         validate_report()
 
         # 6. 최종 리포트 생성
+        today = datetime.now().strftime("%Y%m%d")
         generate_final_report(report_type)
 
+        # 7. Obsidian 저장
+        save_to_obsidian(report_type, today)
+
         print("\n" + "=" * 60)
-        print("✅ 리포트 생성 완료!")
+        print("✅ 리포트 생성 및 저장 완료!")
         print("=" * 60)
 
     except Exception as e:
