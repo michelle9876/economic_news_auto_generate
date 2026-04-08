@@ -14,24 +14,24 @@ def get_report_type():
     """
     현재 시각에 따라 morning/closing 결정
     UTC 기준:
-    - 6시 (한국 오후 3시) → morning
-    - 17시 (한국 다음날 오전 2시) → closing
+    - 23시 (한국 오전 8시) → morning
+    - 11시 (한국 저녁 8시) → closing
     """
     hour = datetime.utcnow().hour
 
-    if hour == 6:
+    if hour == 23:
         return "morning"
-    elif hour == 17:
+    elif hour == 11:
         return "closing"
     else:
         # 로컬 테스트 용: 더 광범위하게 매칭
-        # 6시-11시 → morning, 17시-23시 → closing
-        if 6 <= hour < 12:
+        # 23시 근처 → morning, 11시 근처 → closing
+        if 22 <= hour < 24 or 0 <= hour < 2:
             return "morning"
-        elif 17 <= hour < 24:
+        elif 10 <= hour < 13:
             return "closing"
         else:
-            # 야간시간(0-5시) → closing (전일 마감)
+            # 기본값: closing
             return "closing"
 
 def ensure_output_dirs():
