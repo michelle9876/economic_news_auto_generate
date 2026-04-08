@@ -1,0 +1,64 @@
+name: 경제 분석 리포트 자동 생성
+
+on:
+  schedule:
+    # 매일 아침 6시 (UTC 기준, 한국 시간으로 오후 3시)
+    - cron: '0 6 * * *'
+    # 매일 저녁 5시 (UTC 기준, 한국 시간으로 다음날 오전 2시)
+    - cron: '0 17 * * *'
+  workflow_dispatch:  # 수동 실행 가능
+
+jobs:
+  generate-report:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: 저장소 체크아웃
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Python 설정
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.11'
+          cache: 'pip'
+
+      - name: 의존성 설치
+        run: pip install -r requirements.txt
+
+      - name: 출력 디렉토리 생성
+        run: |
+          mkdir -p output/raw
+          mkdir -p output/processed
+          mkdir -p output/drafts
+          mkdir -p output/final
+          mkdir -p output/logs
+
+      - name: 리포트 타입 결정 및 생성
+        env:
+          CLAUDE_API_KEY: ${{ secrets.CLAUDE_API_KEY }}
+          NEWSAPI_KEY: ${{ secrets.NEWSAPI_KEY }}
+        run: |
+          python3 run_report_pipeline.py
+
+      - name: 생성된 리포트 커밋 및 푸시
+        run: |
+          git config --local user.email "action@github.com"
+          git config --local user.name "GitHub Action"
+
+          # 파일 변경 확인
+          if [ -n "$(git status --porcelain)" ]; then
+            git add output/final/*.md
+            git add output/logs/*.json
+            git commit -m "🤖 $(date +'%Y-%m-%d %H:%M') - 자동 생성 리포트"
+            git push origin main
+          else
+            echo "변경사항 없음"
+          fi
+
+      - name: 오류 발생 시 알림 (선택사항)
+        if: failure()
+        run: |
+          echo "리포트 생성 실패"
+          cat output/logs/error.log 2>/dev/null || echo "로그 파일 없음"
