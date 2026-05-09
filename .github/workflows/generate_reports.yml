@@ -51,9 +51,8 @@ jobs:
           git config --local user.name "GitHub Action"
 
           # 파일 변경 확인
-          if [ -n "$(git status --porcelain)" ]; then
-            git add output/final/*.md
-            git add output/logs/*.json
+          if [ -n "$(git status --porcelain output)" ]; then
+            git add output/final output/logs
             git commit -m "🤖 $(date +'%Y-%m-%d %H:%M') - 자동 생성 리포트"
 
             # GitHub Token을 사용한 푸시
