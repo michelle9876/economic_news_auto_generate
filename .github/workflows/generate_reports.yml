@@ -8,6 +8,12 @@ on:
     - cron: '0 11 * * *'
   workflow_dispatch:  # 수동 실행 가능
 
+permissions:
+  contents: write
+
+env:
+  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
+
 jobs:
   generate-report:
     runs-on: ubuntu-latest
@@ -17,6 +23,7 @@ jobs:
         uses: actions/checkout@v4
         with:
           fetch-depth: 0
+          persist-credentials: true
 
       - name: Python 설정
         uses: actions/setup-python@v4
@@ -44,8 +51,6 @@ jobs:
           python3 run_report_pipeline.py
 
       - name: 생성된 리포트 커밋 및 푸시
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           git config --local user.email "action@github.com"
           git config --local user.name "GitHub Action"
@@ -55,8 +60,8 @@ jobs:
             git add output/final output/logs
             git commit -m "🤖 $(date +'%Y-%m-%d %H:%M') - 자동 생성 리포트"
 
-            # GitHub Token을 사용한 푸시
-            git push https://x-access-token:${GITHUB_TOKEN}@github.com/${{ github.repository }}.git HEAD:main
+            # checkout 인증정보로 푸시
+            git push origin HEAD:main
           else
             echo "변경사항 없음"
           fi
