@@ -7,8 +7,26 @@ GitHub Actions에서 실행되며, 아침/저녁 리포트를 자동으로 판�
 import subprocess
 import sys
 import os
-from datetime import datetime
+from datetime import datetime, timezone
 import json
+from zoneinfo import ZoneInfo
+
+def get_timezone() -> ZoneInfo:
+    """
+    리포트에 사용할 타임존을 반환합니다.
+    - REPORT_TIMEZONE 환경변수로 제어 (예: Asia/Seoul, America/New_York)
+    - 기본값: Asia/Seoul
+    """
+    tz_name = os.getenv("REPORT_TIMEZONE", "Asia/Seoul").strip() or "Asia/Seoul"
+    return ZoneInfo(tz_name)
+
+def now_local() -> datetime:
+    """리포트 기준(로컬) 현재 시각."""
+    return datetime.now(get_timezone())
+
+def now_utc() -> datetime:
+    """UTC 현재 시각(타임존 포함)."""
+    return datetime.now(timezone.utc)
 
 def get_report_type():
     """
@@ -17,7 +35,8 @@ def get_report_type():
     - 23시 (한국 오전 8시) → morning
     - 11시 (한국 저녁 8시) → closing
     """
-    hour = datetime.utcnow().hour
+    # 리포트 타입은 "리포트 기준 타임존"으로 판별
+    hour = now_local().hour
 
     if hour == 23:
         return "morning"
@@ -139,7 +158,7 @@ def call_researcher():
             json.dump({
                 "status": "success",
                 "summary": summary,
-                "timestamp": datetime.now().isoformat()
+                "timestamp": now_local().isoformat()
             }, f, ensure_ascii=False, indent=2)
 
         print("✅ 리서처 작업 완료")
@@ -236,7 +255,7 @@ def generate_final_report(report_type):
     print(f"\n[5단계] 최종 {report_type} 리포트 생성")
 
     try:
-        today = datetime.now().strftime("%Y%m%d")
+        today = now_local().strftime("%Y%m%d")
 
         # 기존 데이터 로드
         try:
@@ -253,8 +272,8 @@ def generate_final_report(report_type):
             insight = ""
 
         # 기본 템플릿
-        report_content = f"""# 시장 분석 리포트 — {datetime.now().strftime('%Y-%m-%d')} [{report_type.upper()}]
-> 생성 시각: {datetime.now().strftime('%Y-%m-%d %H:%M')} | 실행 타입: {report_type}
+        report_content = f"""# 시장 분석 리포트 — {now_local().strftime('%Y-%m-%d')} [{report_type.upper()}]
+> 생성 시각: {now_local().strftime('%Y-%m-%d %H:%M')} ({get_timezone().key}) | 실행 타입: {report_type}
 
 ## 1. 주요 지수 현황
 | 지수 | 현재값 | 전일 대비 |
@@ -308,7 +327,8 @@ def main():
     # 보고 타입 결정
     report_type = get_report_type()
     print(f"\n📊 리포트 타입: {report_type}")
-    print(f"⏰ 현재 시각 (UTC): {datetime.utcnow().strftime('%Y-%m-%d %H:%M:%S')}")
+    print(f"⏰ 현재 시각 (UTC): {now_utc().strftime('%Y-%m-%d %H:%M:%S %Z')}")
+    print(f"🕒 리포트 기준 시각: {now_local().strftime('%Y-%m-%d %H:%M:%S')} ({get_timezone().key})")
 
     try:
         # 1. 출력 디렉토리 생성
@@ -327,7 +347,7 @@ def main():
         validate_report()
 
         # 6. 최종 리포트 생성
-        today = datetime.now().strftime("%Y%m%d")
+        today = now_local().strftime("%Y%m%d")
         generate_final_report(report_type)
 
         # 7. Obsidian 저장
