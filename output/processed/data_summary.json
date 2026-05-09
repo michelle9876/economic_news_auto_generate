@@ -1,0 +1,111 @@
+{
+  "generated_at": "2026-04-12T22:41:00+09:00",
+  "report_type": "morning",
+  "indices": {
+    "KOSPI": {
+      "value": 5858.87,
+      "change_pct": 1.4,
+      "status": "ok"
+    },
+    "KOSDAQ": {
+      "value": 1093.63,
+      "change_pct": 1.64,
+      "status": "ok"
+    },
+    "SP500": {
+      "value": 6816.89,
+      "change_pct": -0.11,
+      "status": "ok"
+    },
+    "NASDAQ": {
+      "value": 22902.9,
+      "change_pct": 0.35,
+      "status": "ok"
+    },
+    "DOW": {
+      "value": 47916.57,
+      "change_pct": -0.56,
+      "status": "ok"
+    },
+    "NIKKEI": {
+      "value": 56924.11,
+      "change_pct": 1.84,
+      "status": "ok"
+    }
+  },
+  "rates": {
+    "usd_krw": {
+      "value": 1482.5,
+      "unit": "KRW",
+      "status": "ok"
+    },
+    "us_10y_yield": {
+      "value": 4.33,
+      "unit": "%",
+      "status": "ok"
+    },
+    "fed_funds_rate": {
+      "value": 3.64,
+      "unit": "%",
+      "status": "ok"
+    },
+    "bok_base_rate": {
+      "value": 2.5,
+      "unit": "%",
+      "source": "WebSearch",
+      "status": "ok"
+    },
+    "kr_3y_bond": {
+      "value": 3.292,
+      "unit": "%",
+      "source": "WebSearch",
+      "status": "ok"
+    }
+  },
+  "macro": {
+    "us_cpi_yoy": {
+      "value": 3.3,
+      "unit": "%",
+      "status": "ok"
+    }
+  },
+  "real_estate": {
+    "seoul_apt_index": {
+      "value": "106.11",
+      "source": "WebSearch",
+      "status": "ok"
+    },
+    "market_trend": {
+      "summary": "2026년 4월 4일 기준 KB 서울 아파트 매매지수는 106.11로 전국 91.26을 웃돌았다. 서울 중심 회복세가 이어지는 반면 전국은 온도 차가 커 지역별 차별화가 지속되는 흐름이다.",
+      "status": "ok"
+    }
+  },
+  "news": [
+    {
+      "title": "Consumer Price Index News Release",
+      "source": "U.S. Bureau of Labor Statistics",
+      "published_at": "2026-04-10 08:30 ET",
+      "url": "https://www.bls.gov/news.release/archives/cpi_04102026.htm"
+    },
+    {
+      "title": "Asian stocks head for best week since late 2011",
+      "source": "Reuters / Business Recorder",
+      "published_at": "2026-04-11 06:16 PKT",
+      "url": "https://www.brecorder.com/news/40415862/asian-stocks-head-for-best-week-since-late-2011"
+    },
+    {
+      "title": "휴전 기대감, 코스피·코스닥 동반 상승…외인 1.1조 순매수[시황종합]",
+      "source": "뉴스1 / 파이낸셜뉴스",
+      "published_at": "2026-04-10 16:19 KST",
+      "url": "https://www.fnnews.com/news/202604101619405831"
+    },
+    {
+      "title": "Oil ends lower, posts steepest weekly loss since 2022",
+      "source": "Reuters / Business Recorder",
+      "published_at": "2026-04-11 06:16 EDT",
+      "url": "https://www.brecorder.com/news/40415881"
+    }
+  ],
+  "na_items": [],
+  "researcher_note": "오늘은 2026-04-12 일요일(KST)이라 morning과 closing 모두 2026-04-10 마지막 거래일 종가와 최신 공식 발표치를 기준으로 작성했다. 자동 수집 스크립트는 yfinance 및 API 키 부재로 실패해 웹 확인값으로 보완했다."
+}

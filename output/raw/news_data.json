@@ -1,0 +1,35 @@
+{
+  "collected_at": "2026-04-12T22:41:00+09:00",
+  "source": "manual_web_verification",
+  "count": 4,
+  "articles": [
+    {
+      "title": "Consumer Price Index News Release",
+      "source": "U.S. Bureau of Labor Statistics",
+      "published_at": "2026-04-10 08:30 ET",
+      "url": "https://www.bls.gov/news.release/archives/cpi_04102026.htm",
+      "description": "March 2026 U.S. CPI rose 0.9% month over month and 3.3% year over year, led by energy."
+    },
+    {
+      "title": "Asian stocks head for best week since late 2011",
+      "source": "Reuters / Business Recorder",
+      "published_at": "2026-04-11 06:16 PKT",
+      "url": "https://www.brecorder.com/news/40415862/asian-stocks-head-for-best-week-since-late-2011",
+      "description": "Emerging Asian equities rallied on hopes tied to a U.S.-Iran ceasefire, but investors remained cautious about supply constraints."
+    },
+    {
+      "title": "휴전 기대감, 코스피·코스닥 동반 상승…외인 1.1조 순매수[시황종합]",
+      "source": "뉴스1 / 파이낸셜뉴스",
+      "published_at": "2026-04-10 16:19 KST",
+      "url": "https://www.fnnews.com/news/202604101619405831",
+      "description": "KOSPI and KOSDAQ rose sharply as foreign investors returned on easing geopolitical fears."
+    },
+    {
+      "title": "Oil ends lower, posts steepest weekly loss since 2022",
+      "source": "Reuters / Business Recorder",
+      "published_at": "2026-04-11 06:16 EDT",
+      "url": "https://www.brecorder.com/news/40415881",
+      "description": "Brent settled at USD95.20 as the market priced in ceasefire talks while remaining sensitive to supply risks."
+    }
+  ]
+}

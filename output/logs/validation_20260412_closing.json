@@ -1,0 +1,23 @@
+{
+  "validated_at": "2026-04-12T13:45:48",
+  "date": "20260412",
+  "report_type": "closing",
+  "results": {
+    "required_data": {
+      "pass": true,
+      "detail": "주가지수 ok: ['KOSPI', 'KOSDAQ', 'SP500', 'NASDAQ', 'DOW', 'NIKKEI'], 금리/환율 ok: ['usd_krw', 'us_10y_yield', 'fed_funds_rate']"
+    },
+    "news_count": {
+      "pass": true,
+      "count": 4,
+      "required": 3
+    },
+    "insight_length": {
+      "pass": true,
+      "length": 709,
+      "required": 200
+    }
+  },
+  "overall": "pass",
+  "flags": []
+}
